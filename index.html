@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoAPP</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Mali&display=swap');
+
+        html, body{
+            border: 0;
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: rgb(152, 129, 184);
+        }
+        .cont{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .content{
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+            width: 200px;
+            padding: 30px;
+            background-color: rgb(255, 255, 255);
+            text-align: center;
+            border-radius: 5px;
+        }
+        .content h1{
+            margin: 0;
+            padding: 0;
+            border: 0;
+            margin: 10px 0;
+            margin-bottom: 20px;
+            font-family: 'Mali';
+        }
+
+        .content >input {
+            outline: 0;
+            border: 0;
+            margin: 0;
+            padding: 5px;
+            width: 200px;
+            border: 1pt solid black;
+            background-color: white;
+            font-family: 'Mali';
+            font-size: 14pt;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.5s ease;
+        }
+        .content >input:hover{
+            background-color: rgb(198, 149, 212);
+            transition: background-color 0.5s ease;
+        }
+        .content >input:active{
+            background-color: rgb(103, 75, 112);
+            color: white;
+            transition: background-color 0.5s ease;
+        }
+
+        table{
+            margin: 0;
+            padding: 0;
+            border-collapse: collapse;
+        }
+
+        tr td{
+            font-family: 'Mali';
+            font-size: 14pt;
+        }
+
+        tr input[type="text"]{
+            border: 0;
+            outline: 0;
+            padding: 5px;
+            border-bottom: 1pt solid black;
+            width: 100%;
+            height: 30px;
+            text-align: center;
+        }
+
+        tr input[type="button" ]{
+            background-color: white;
+            border: 0;
+            outline: 0;
+            padding: 0;
+            margin: 0;
+            border-bottom: 1pt solid black;
+            width: 100%;
+            height: 41px;
+        }
+
+        .list-content{
+            font-size: 8pt;
+        }
+
+        .list-tr{
+            border-bottom: 1pt solid rgb(220,220,220);
+        }
+        .cont p{
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="cont">
+        <div class="content">
+            <h1>TODOAPP</h1>
+            <input type="button" value="Delete Selected" id="btnDel">
+            <input type="button" value="Delete All" id="btnAllDel">
+            <table>
+                <tbody id='todolist'>
+                    <tr>
+                        <td>List</td>
+                        <td>Y/N</td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="todo" id="todo"></td>
+                        <td><input type="button" value="생성" id="btnAdd"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>이 홈페이지는 melenJD가 작성하였습니다.</p>
+    </div>
+</body>
+</html>
+
+<script>
+    document.getElementById('btnAdd').addEventListener('click', addList);
+    document.getElementById('btnDel').addEventListener('click', delList);
+    document.getElementById('btnAllDel').addEventListener('click', delAllList);
+
+    function addList() {
+        const contents = document.getElementById('todo');
+        if(!contents.value){
+            alert('내용을 입력해주세요');
+            contents.focus();
+            return false;
+        }
+
+        const tr = document.createElement('tr');
+        tr.setAttribute('class', 'list-tr');
+        const td1 = document.createElement('td');
+        td1.setAttribute('class', 'list-content');
+        td1.innerHTML = contents.value;
+        tr.appendChild(td1);
+
+        const td2 = document.createElement('td');
+        const checkbox = document.createElement('input');
+        checkbox.setAttribute('type', 'checkbox');
+        checkbox.setAttribute('class', 'btn-chk');
+
+        td2.appendChild(checkbox);
+        tr.appendChild(td2);
+
+        document.getElementById('todolist').appendChild(tr);
+        contents.value='';
+        contents.focus();
+    }
+    function delList() {
+        const body = document.getElementById('todolist');
+        const chkbox = document.getElementsByClassName('btn-chk');
+        for(var i=chkbox.length-1;i>=0;i--) {
+            if(chkbox[i].nodeType == 1 && chkbox[i].checked == true){
+                body.removeChild(chkbox[i].parentNode.parentNode);
+            }
+        }
+    }
+    function delAllList() {
+        const body = document.getElementById('todolist');
+        const chkbox = document.getElementsByClassName('btn-chk');
+        for(var i=chkbox.length-1;i>=0;i--) {
+            body.removeChild(chkbox[i].parentNode.parentNode);
+        }
+    }
+</script>
